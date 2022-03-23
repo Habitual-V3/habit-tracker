@@ -45,14 +45,18 @@ export const decrementNumHabitActionCreator = habitId => ({
   payload: habitId,
 });
 
-export const showModalAddActionCreator = show => ({
-  type: types.SHOW_MODAL_ADD,
-  payload: show,
+export const modalActionCreator = show => ({
+  type: types.SHOW_MODAL, 
+  payload: show
 })
-export const hideModalAddActionCreator = show => ({
-  type: types.HIDE_MODAL_ADD,
-  payload: show,
-})
+// export const showModalAddActionCreator = show => ({
+//   type: types.SHOW_MODAL_ADD,
+//   payload: show,
+// })
+// export const hideModalAddActionCreator = show => ({
+//   type: types.HIDE_MODAL_ADD,
+//   payload: show,
+// })
 export const showModalEditActionCreator = show => ({
   type: types.SHOW_MODAL_EDIT,
   payload: show,
