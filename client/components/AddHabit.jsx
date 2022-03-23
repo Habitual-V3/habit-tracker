@@ -55,19 +55,27 @@ const AddHabit = (props) => {
         let newHabit = document.getElementById("newhabit").value
         props.showModalAdd()
 
-        fetch('/', {
+        fetch('http://localhost:3000/edithabit/add', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json', 
             },
             //store to habits table
-            body: JSON.stringify({habit_name: newHabit, userId: props.userId}) 
+            body: JSON.stringify({userId: props.userId, habitName: newHabit, target_num: null}) 
             //server should insert to both habits & user_habits tables
         })
+        .then(data => data.json())
+        .then(data => {
+            console.log('data from addhabit func: ', data)
+            //data should include habit name
+            //render new todo here
+            props.addNewHabit(data)
+        })
     }
-    const handleSelectChange = (e) => {
-        console.log('hit');
-    }
+
+    // const handleSelectChange = (e) => {
+    //     console.log('hit');
+    // }
 
     //
     return (

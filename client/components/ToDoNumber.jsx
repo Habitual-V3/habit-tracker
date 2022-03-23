@@ -3,6 +3,9 @@ import React from 'react';
 const ToDoNumber = (props) => {
     console.log("Todonumber", props);
     const habit = props.habit;
+    console.log('habit passed down: ', habit)
+    const habit_name = habit.habit_name
+    // console.log('habit name: ', habit_name)
     const percentage = habit[3];
 
     function increment() {
@@ -23,7 +26,7 @@ const ToDoNumber = (props) => {
     return (
         <div className='item-todo'>
             <div className='wrapper-habit-text'>
-                <div className='habit-name habit-text'>{habit[1]}</div>
+                <div className='habit-name habit-text'>{habit_name}</div>
                 {/* <div className='habit-status habit-text'>{`${habit.status} / ${habit.goal}`}</div> */}
             </div>
             <div className='progress-container'>

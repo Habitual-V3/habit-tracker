@@ -6,15 +6,17 @@ import ToDoBoolean from '../components/ToDoBoolean.jsx';
 const ToDos = (props) => {
     console.log("below is props");
     console.log("todo is ",props);
-    const todayHabit = props.todayHabit;
+    const habits = props.habits;
+    console.log('habits in ToDos: ', habits)
     const todoList = [];
 
-    for (let habit of todayHabit) {
-        console.log(habit);
-        if (habit[3] !== 1) {
-            if (habit[2] !== null) todoList.push(<ToDoNumber show={props.show} incrementNum={props.incrementNum} decrementNum={props.decrementNum} habit={habit} />)
-            else todoList.push(<ToDoBoolean show={props.show} completeBool={props.completeBool} habit={habit} />)
-        }
+    for (let habit of habits) {
+        console.log('here is the habit: ', habit);
+        //example habit array [{habit_name: 'stretch', id: 1, target_num: 3}]
+        //if target num > 1 and not null
+        if (habit[2] !== 1 && habit[2] !== null) {
+            todoList.push(<ToDoNumber show={props.show} incrementNum={props.incrementNum} decrementNum={props.decrementNum} habit={habit} />)
+        } else todoList.push(<ToDoBoolean show={props.show} completeBool={props.completeBool} habit={habit} />)
     }
     
     return (

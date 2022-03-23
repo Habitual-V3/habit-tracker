@@ -29,7 +29,7 @@ const LoginForm = (props) => {
         {
           method: 'POST',
          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ "userId": authStatus.userid}),
+          body: JSON.stringify({ userId: authStatus.userid }),
         }
         
         fetch('http://localhost:3000/feed', req)
@@ -37,8 +37,8 @@ const LoginForm = (props) => {
           // console.log(JSON.parse(res))
           return res.json()
         }).then(data=> {
-          console.log('data we are looking for: ', data)
-          props.getFeed({...data, "userId": authStatus.userid});
+          console.log('login form data: ', data)
+          props.getFeed({...data, userId: authStatus.userid});
           navigate('/feed');
           }
         )

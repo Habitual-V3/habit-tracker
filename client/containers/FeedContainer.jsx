@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 	//add showModal prop to state
 	userId: state.habits.userId,
   showModal: state.habits.showModal,
-  todayHabit: state.habits.todayHabit,
+  habits: state.habits.habits,
   calendar: state.habits.calendar,
 });
 
@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch) => ({
 	showModalAction: (show) => dispatch(actions.modalActionCreator(show)),
   showModalEdit: (show) => dispatch(actions.showModalEditActionCreator(show)),
   hideModalEdit: (show) => dispatch(actions.hideModalEditActionCreator(show)),
+	addNewHabit: (habit) => dispatch(actions.createHabitActionCreator(habit))
 });
 
 class FeedContainer extends Component {
@@ -40,6 +41,7 @@ class FeedContainer extends Component {
 				// console.log('state: ', this.props.state)
         // console.log('calendar', this.props) 
 				// console.log('showmodal: ', this.props.showModal)
+				console.log('habits in state: ', this.props.habits)
 
         return(
             <div>
@@ -47,23 +49,27 @@ class FeedContainer extends Component {
                 // show should be a boolean on whether or not we want the modal to be displayed
                     show={this.props.showModal}
 										showModalAdd={this.props.showModalAction}
+
 										userId={this.props.userId}
                     // show={this.props.showModalAdd}
                     // hideModalAdd={this.props.hideModalAdd} 
-                    habits={this.props.habits}/>
+                    habits={this.props.habits}
+										addNewHabit={this.props.addNewHabit}/>
                 {/* <EditHabit 
                     show={this.props.showModalEdit} 
                     habits={this.props.todayHabit}/> */}
                 <TopBar 
-                    showModalAdd={this.props.showModalAction}/>
+                    showModalAction={this.props.showModalAction}/>
                 <Calendar 
                     calendarData={this.props.calendar}/>
                 <ToDos 
-                    show={this.props.showModalEdit} 
+								    show={this.props.showModal}
+										showModalAdd={this.props.showModalAction}
+                    // show={this.props.showModalEdit} 
                     completeBool={this.props.completeBoolHabit} 
                     incrementNum={this.props.incrementNumHabit} 
                     decrementNum={this.props.decrementNumHabit} 
-                    todayHabit={this.props.todayHabit}/>
+                    habits={this.props.habits}/>
                 {/* <Completed 
                     show={this.props.showModalEdit} 
                     uncompleteBool={this.props.uncompleteBoolHabit} 

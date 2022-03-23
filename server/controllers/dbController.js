@@ -78,6 +78,7 @@ dbController.getUserInfo = async (req, res, next) => {
   for (let row of habitRecord.rows) {
     res.locals.calendarRecord.push(Number(row.total_percent));
   }
+  // console.log('CALENDAR: ', res.locals.calendarRecord)
 
   // Get today's habit progress
 
@@ -95,58 +96,70 @@ dbController.getUserInfo = async (req, res, next) => {
 
   // Retrieve today's habit progress
   const todayRecordQuery = `
-        SELECT user_id, habit_id, fullfilled_percent, habit_name
-        FROM user_habit_records uhr
-        JOIN habits h ON uhr.habit_id = h.id
-        WHERE date=(SELECT CURRENT_DATE) AND uhr.user_id=$1`;
+    SELECT id, target_num, habit_name
+    FROM users
+    JOIN user_habits ON users.id=user_habits.user_id
+    WHERE users.id=$1`
+  // `
+  //       SELECT user_id, habit_id, fullfilled_percent, habit_name
+  //       FROM user_habit_records uhr
+  //       JOIN habits h ON uhr.habit_id = h.id
+  //       WHERE date=(SELECT CURRENT_DATE) AND uhr.user_id=$1`;
   const todayRecord = await db.query(todayRecordQuery, [userId]);
-  console.log(todayRecord)
-  res.locals.todayHabit = [];
+  // console.log('TODAY RECORD: ', todayRecord)
+  res.locals.habits = todayRecord.rows;
 
-  // Extract data from database and store into habit
-  for (let row of todayRecord.rows) {
-    const habit = [];
-    habit.push(row.habit_id);
-    habit.push(row.habit_name);
-    // find target number
-    const targetQuery = `
-    SELECT target_num FROM user_habits
-    WHERE user_id=$1 AND habit_id=$2;
-    `;
-    const targetNum = await db.query(targetQuery, [row.user_id, row.habit_id]);
-    habit.push(targetNum.rows[0].target_num);
+  // // Extract data from database and store into habit
+  // for (let row of todayRecord.rows) {
+  //   const habit = [];
+  //   habit.push(row.habit_id);
+  //   habit.push(row.habit_name);
+  //   // find target number
+  //   const targetQuery = `
+  //   SELECT target_num FROM user_habits
+  //   WHERE user_id=$1 AND habit_id=$2;
+  //   `;
+  //   const targetNum = await db.query(targetQuery, [row.user_id, row.habit_id]);
+  //   habit.push(targetNum.rows[0].target_num);
 
-    // if (row.fullfilled_percent != 0 || row.fullfilled_percent != 1)
-    //   habit.push(1);
-    // else 
-    habit.push(row.fullfilled_percent);
-    res.locals.todayHabit.push(habit);
-  }
+  //   // if (row.fullfilled_percent != 0 || row.fullfilled_percent != 1)
+  //   //   habit.push(1);
+  //   // else 
+  //   habit.push(row.fullfilled_percent);
+  //   res.locals.todayHabit.push(habit);
+  // }
   return next();
 };
 
 // add a new user-habit pair
 dbController.assignHabit = async (req, res, next) => {
+  console.log('inside dbController.assignHabit')
   // add to user-habits table
   const userId = res.locals.userId;
-  const habitId = res.locals.habitId;
+  const habitName = res.locals.habitName;
   const targetNum = res.locals.targetNum;
-  console.log(userId, habitId, targetNum);
+  const activeBool = true
+  console.log('this is userID', userId, 'this is habitName', habitName, 'this is targetNum', targetNum);
   const insertUserHabitQuery = `
-      INSERT INTO user_habits (user_id, habit_id, target_num, active)
-      VALUES ($1, $2, $3, 'true');
+      INSERT INTO user_habits (user_id, habit_name, target_num, active)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;
         `;
-  const insertUserHabit = await db.query(insertUserHabitQuery, [
+
+  const newHabit = await db.query(insertUserHabitQuery, [
     userId,
-    habitId,
+    habitName,
     targetNum,
+    activeBool
   ]);
+  console.log('insert user habit query result: ', newHabit)
+  res.locals.newHabit = newHabit.rows
   // add a new user-habit-record row
-  const insertUHRQuery = `
-      INSERT INTO user_habit_records (user_id, habit_id, date, fullfilled_percent)
-      VALUES ($1, $2, (SELECT CURRENT_DATE), 0);
-      `;
-  const insertUHR = await db.query(insertUHRQuery, [userId, habitId]);
+  // const insertUHRQuery = `
+  //     INSERT INTO user_habit_records (user_id, habit_id, date, fullfilled_percent)
+  //     VALUES ($1, $2, (SELECT CURRENT_DATE), 0);
+  //     `;
+  // const insertUHR = await db.query(insertUHRQuery, [userId, habitId]);
 
   // update the corresponding row in daily-count (update or create)
   return next();

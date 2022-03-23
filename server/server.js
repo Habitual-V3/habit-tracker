@@ -48,6 +48,6 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).send(errorObj.message);
 });
 
-app.listen(port, () => console.log(`App listening on port ${port}`));
+// app.listen(port, () => console.log(`App listening on port ${port}`));
 
-module.exports = app;
+module.exports = app.listen(port, () => console.log(`App listening on port ${port}`));

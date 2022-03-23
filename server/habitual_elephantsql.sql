@@ -133,7 +133,7 @@ VALUES
 
 
 ----Change server timezone
-ALTER DATABASE fliqwumy SET timezone TO 'US/Pacific';
+ALTER DATABASE lygurdee SET timezone TO 'US/Pacific';
 
 
 ----Add new rows for presentation

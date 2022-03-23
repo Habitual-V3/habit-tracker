@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 
 export const loginUserActionCreator = userId => ({
-  type: types.LOGIN_USER,
+  type: types.LOGIN_USER, //not being used
   payload: userId,
 });
 
@@ -10,13 +10,12 @@ export const getFeedActionCreator = data => ({
   payload: data,
 });
 
-
 export const logoutUserActionCreator = () => ({
   type: types.LOGOUT_USER,
 });
 
 export const createHabitActionCreator = habitId => ({
-  type: types.CREATE_HABIT,
+  type: types.ADD_NEWHABIT,
   payload: habitId,
 });
 

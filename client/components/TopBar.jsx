@@ -11,9 +11,9 @@ const TopBar = (props) => {
         navigate('/');
     }
     function addHabit () {
-        props.showModalAdd();
+        props.showModalAction();
     }
-    
+
     return (
         <div className="topbar">
             <div id='logo'>H</div>
