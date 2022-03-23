@@ -40,8 +40,10 @@ CREATE TABLE daily_count(
 
 -- Add users
 INSERT INTO users (first_name, last_name, user_name, email, password)
-VALUES('Yankun', 'Song', 'bigcat', 'yankun@gmail.com', '1234'),
-('Ernest', 'Leung', 'Ernest', 'ernest@gmail.com', '1234');
+VALUES('Joe', 'Amos', 'Joe', 'joe@gmail.com', '1234'),
+('Esther', 'Cho', 'Esther', 'esther@gmail.com', '1234'),
+('Myles', 'Tsutsui', 'Myles', 'myles@gmail.com', '1234'),
+('Steven', 'Nguyen', 'Steven', 'steven@gmail.com', '1234');
 
 -- Add Habits
 INSERT INTO habits (habit_name, is_boolean)

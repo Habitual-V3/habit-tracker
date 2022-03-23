@@ -5,7 +5,8 @@ import * as actions from '../actions/actions';
 import LoginForm from '../components/LoginForm.jsx';
 
 const mapStateToProps = state => ({
-  // habits: state.habits
+  userId: state.habits.userId,
+  calendar: state.habits.userId
 })
 
 const mapDispatchToProps = (dispatch) => {

@@ -5,29 +5,26 @@ import * as actions from '../actions/actions';
 import TopBar from '../components/TopBar.jsx';
 import Calendar from '../components/Calendar.jsx';
 import ToDos from '../components/ToDos.jsx';
-import Completed from '../components/Completed.jsx';
-import AddHabit from '../components/AddHabit.jsx';
-import EditHabit from '../components/EditHabit.jsx';
+// import Completed from '../components/Completed.jsx';
+// import AddHabit from '../components/AddHabit.jsx';
+// import EditHabit from '../components/EditHabit.jsx';
 
 // TODO: add calendar
-const mapStateToProps = state => ({
-    todayHabit: state.habits.todayHabit,
-    calendar: state.habits.calendar
-})
+const mapStateToProps = (state) => ({
+  todayHabit: state.habits.todayHabit,
+  calendar: state.habits.calendar,
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        incrementNumHabit: (habitId) => dispatch(actions.incrementNumHabitActionCreator(habitId)),
-        decrementNumHabit: (habitId) => dispatch(actions.decrementNumHabitActionCreator(habitId)),
-        completeBoolHabit: (habitId) => dispatch(actions.completeBoolHabitActionCreator(habitId)),
-        uncompleteBoolHabit: (habitId) => dispatch(actions.uncompleteBoolHabitActionCreator(habitId)),
-        showModalAdd: (show) => dispatch(actions.showModalAddActionCreator(show)),
-        hideModalAdd: (show) => dispatch(actions.hideModalAddActionCreator(show)),
-        showModalEdit: (show) => dispatch(actions.showModalEditActionCreator(show)),
-        hideModalEdit: (show) => dispatch(actions.hideModalEditActionCreator(show))
-    }
-};
-
+const mapDispatchToProps = (dispatch) => ({
+  incrementNumHabit: (habitId) => dispatch(actions.incrementNumHabitActionCreator(habitId)),
+  decrementNumHabit: (habitId) => dispatch(actions.decrementNumHabitActionCreator(habitId)),
+  completeBoolHabit: (habitId) => dispatch(actions.completeBoolHabitActionCreator(habitId)),
+  uncompleteBoolHabit: (habitId) => dispatch(actions.uncompleteBoolHabitActionCreator(habitId)),
+  showModalAdd: (show) => dispatch(actions.showModalAddActionCreator(show)),
+  hideModalAdd: (show) => dispatch(actions.hideModalAddActionCreator(show)),
+  showModalEdit: (show) => dispatch(actions.showModalEditActionCreator(show)),
+  hideModalEdit: (show) => dispatch(actions.hideModalEditActionCreator(show)),
+});
 
 class FeedContainer extends Component {
     constructor(props) {
@@ -62,7 +59,7 @@ class FeedContainer extends Component {
                     todayHabit={this.props.todayHabit}/> */}
             </div>
         )
-    };
-};
+    }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps) (FeedContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedContainer);

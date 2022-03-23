@@ -3,7 +3,7 @@ const db = require('../models/dbModels');
 
 // Store new user's account info into Databse
 dbController.saveUser = async (req, res, next) => {
-  const { firstName, lastName, username, email, password } = res.locals.newUser;
+  const { firstName, lastName, username, email, password } = res.locals.newUser,
   params = [firstName, lastName, username, email, password];
   try {
     const saveUserQuery = `
@@ -28,7 +28,7 @@ dbController.saveUser = async (req, res, next) => {
 // Validate matching user info from frontend and database
 dbController.checkUser = async (req, res, next) => {
   // res.locals.loginUser
-  const { email, password } = res.locals.loginUser;
+  const { email, password } = res.locals.loginUser,
   params = [email, password];
   try {
     const checkUserQuery = `
@@ -60,6 +60,7 @@ dbController.checkUser = async (req, res, next) => {
 
 // return past history and today's record
 dbController.getUserInfo = async (req, res, next) => {
+  console.log('inside dbController.getUserInfo')
   const userId = res.locals.userId;
 
   // Get Calendar current date and its the past 27 days
@@ -70,12 +71,12 @@ dbController.getUserInfo = async (req, res, next) => {
         `;
   // Populate calendarArray with 28 days
   const habitRecord = await db.query(calendarQuery, [userId]);
-  res.locals.calendarReocrd = [];
+  res.locals.calendarRecord = [];
   for (let i = 0; i < 28 - habitRecord.rows.length; i++) {
-    res.locals.calendarReocrd.push(0);
+    res.locals.calendarRecord.push(0);
   }
   for (let row of habitRecord.rows) {
-    res.locals.calendarReocrd.push(Number(row.total_percent));
+    res.locals.calendarRecord.push(Number(row.total_percent));
   }
 
   // Get today's habit progress
@@ -99,6 +100,7 @@ dbController.getUserInfo = async (req, res, next) => {
         JOIN habits h ON uhr.habit_id = h.id
         WHERE date=(SELECT CURRENT_DATE) AND uhr.user_id=$1`;
   const todayRecord = await db.query(todayRecordQuery, [userId]);
+  console.log(todayRecord)
   res.locals.todayHabit = [];
 
   // Extract data from database and store into habit

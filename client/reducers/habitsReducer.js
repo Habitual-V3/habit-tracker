@@ -2,13 +2,19 @@ import * as types from '../constants/actionTypes';
 
 const initialState = {
   userId: null,
+  //username:
+  //calendar:
+  //todaysHabits: []
+
   habits: [
-        { habit: 'Drink water',
+    {
+      habit: 'Drink water',
       habitId: 1,
       type: 'number',
       status: 1,
       goal: 10,
-      completed: false }
+      completed: false,
+    },
   ],
 
   calendar: [],
@@ -43,37 +49,6 @@ const initialState = {
   ]
 }
 
-    // { habit: 'Drink water',
-    //   habitId: 1,
-    //   type: 'number',
-    //   status: 1,
-    //   goal: 10,
-    //   completed: false },
-
-    // { habit: 'Make bed',
-    //   habitId: 2,
-    //   type: 'boolean',
-    //   completed: true },
-
-    // { habit: 'Walk dog',
-    //   habitId: 3,
-    //   type: 'number',
-    //   status: 5,
-    //   goal: 5,
-    //   completed: true},
-
-    // { habit: 'Sleep on time',
-    //   habitId: 4,
-    //   type: 'boolean',
-    //   completed: false },
-
-    // { habit: 'Stretch',
-    //   habitId: 5,
-    //   type: 'number',
-    //   status: 4,
-    //   goal: 5,
-    //   completed: false }
-  // ],
 
 const habitsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -83,7 +58,8 @@ const habitsReducer = (state = initialState, action) => {
 
     case types.GET_FEED: {
       const { calendar, todayHabit, userId } = action.payload;
-      const newState = { ...state, calendar, todayHabit, userId }
+      const copyState = JSON.parse(JSON.stringify(state));
+      const newState = { ...copyState, calendar, todayHabit, userId }
       console.log('below is new state');
       console.log(newState);
       return newState;
