@@ -13,6 +13,7 @@ const TopBar = (props) => {
     function addHabit () {
         props.showModalAdd();
     }
+    
     return (
         <div className="topbar">
             <div id='logo'>H</div>

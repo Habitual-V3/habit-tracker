@@ -18,8 +18,9 @@ const initialState = {
   ],
 
   calendar: [],
-  showModalAdd: false,
-  showModalEdit: false,
+  // showModalAdd: false,
+  // showModalEdit: false,
+  showModal: false,
   allHabits: [
     {
       habit: "Drink water",
@@ -129,22 +130,31 @@ const habitsReducer = (state = initialState, action) => {
         };
       }
       
-    case types.SHOW_MODAL_ADD: {
-      let showModalAdd = true;
+    // case types.SHOW_MODAL_ADD: {
+    //   let showModalAdd = true;
 
-      return {
-        ...state,
-        showModalAdd
-      }
-    }
-    case types.HIDE_MODAL_ADD: {
-      let showModalAdd = false;
+    //   return {
+    //     ...state,
+    //     showModalAdd
+    //   }
+    // }
+    // case types.HIDE_MODAL_ADD: {
+    //   let showModalAdd = false;
       
+    //   return {
+    //     ...state,
+    //     showModalAdd
+    //   }
+    // }
+
+    case types.SHOW_MODAL: {
       return {
-        ...state,
-        showModalAdd
+        ...state, 
+        //return whatever is the opposite of initial/current showModal state
+        showModal: !state.showModal
       }
     }
+
     case types.SHOW_MODAL_EDIT: {
       let showModalEdit = true;
       
