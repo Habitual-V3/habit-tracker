@@ -55,15 +55,15 @@ userController.getUserInfo = (req, res, next) => {
 
 userController.assignHabit = (req, res, next) => {
   const { userId, habitName, targetNum } = req.body;
-  const habitPairs = {
-    Water: 1,
-    'Make Bed': 2,
-    'Walk Dog': 3,
-    'Sleep on Time': 4,
-    Stretch: 5,
-  };
+  // const habitPairs = {
+  //   Water: 1,
+  //   'Make Bed': 2,
+  //   'Walk Dog': 3,
+  //   'Sleep on Time': 4,
+  //   Stretch: 5,
+  // };
   res.locals.userId = userId;
-  res.locals.habitId = habitPairs[habitName];
+  res.locals.habitName = habitName;
   res.locals.targetNum = targetNum;
   return next();
 };

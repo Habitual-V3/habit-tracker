@@ -11,10 +11,10 @@ router.post(
   userController.getUserInfo,
   dbController.getUserInfo,
   (req, res) => {
-    console.log('inside feed post route')
+    console.log('inside feed.js post route')
     return res.status(200).json({
       calendar: res.locals.calendarRecord,
-      todayHabit: res.locals.todayHabit,
+      habits: res.locals.habits,
     });
   }
 );

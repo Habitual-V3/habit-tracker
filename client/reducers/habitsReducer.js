@@ -6,7 +6,7 @@ const initialState = {
   //calendar:
   //todaysHabits: []
 
-  habits: [
+  oldhabits: [
     {
       habit: 'Drink water',
       habitId: 1,
@@ -21,46 +21,46 @@ const initialState = {
   // showModalAdd: false,
   // showModalEdit: false,
   showModal: false,
-  allHabits: [
-    {
-      habit: "Drink water",
-      habitId: 1,
-      isBoolean: false
-    },
-    {
-      habit: "Make bed",
-      habitId: 2,
-      isBoolean: true
-    },
-    {
-      habit: "Walk dog",
-      habitId: 3,
-      isBoolean: false
-    },
-    {
-      habit: "Sleep on time",
-      habitId: 4,
-      isBoolean: true
-    },
-    {
-      habit: "Stretch",
-      habitId: 5,
-      isBoolean: false
-    },
-  ]
+  habits: []
+  //   {
+  //     habit: "Drink water",
+  //     habitId: 1,
+  //     isBoolean: false
+  //   },
+  //   {
+  //     habit: "Make bed",
+  //     habitId: 2,
+  //     isBoolean: true
+  //   },
+  //   {
+  //     habit: "Walk dog",
+  //     habitId: 3,
+  //     isBoolean: false
+  //   },
+  //   {
+  //     habit: "Sleep on time",
+  //     habitId: 4,
+  //     isBoolean: true
+  //   },
+  //   {
+  //     habit: "Stretch",
+  //     habitId: 5,
+  //     isBoolean: false
+  //   },
+  // ]
 }
 
 
 const habitsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.LOGIN_USER: {
+    // case types.LOGIN_USER: { //not being used
       
-    }
+    // }
 
     case types.GET_FEED: {
-      const { calendar, todayHabit, userId } = action.payload;
+      const { calendar, habits, userId } = action.payload;
       const copyState = JSON.parse(JSON.stringify(state));
-      const newState = { ...copyState, calendar, todayHabit, userId }
+      const newState = { ...copyState, calendar, habits, userId }
       console.log('below is new state');
       console.log(newState);
       return newState;
@@ -128,6 +128,12 @@ const habitsReducer = (state = initialState, action) => {
           ...state,
           habits,
         };
+    }
+
+      case types.ADD_NEWHABIT: {
+        const copyState = JSON.parse(JSON.stringify(state));
+        copyState.habits.push(action.payload[0]);
+        return copyState;
       }
       
     // case types.SHOW_MODAL_ADD: {

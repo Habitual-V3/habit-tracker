@@ -1,6 +1,6 @@
-export const LOGIN_USER = 'LOGIN_USER';
+export const LOGIN_USER = 'LOGIN_USER'; //not being used
 export const LOGOUT_USER = 'LOGOUT_USER';
-export const CREATE_HABIT = 'CREATE_HABIT';
+export const ADD_NEWHABIT = 'ADD_NEWHABIT';
 export const DEACTIVATE_HABIT = 'DEACTIVATE_HABIT';
 export const COMPLETE_BOOL_HABIT = 'COMPLETE_BOOL_HABIT';
 export const UNCOMPLETE_BOOL_HABIT = 'UNCOMPLETE_BOOL_HABIT';

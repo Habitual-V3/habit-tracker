@@ -10,7 +10,7 @@ router.post(
   userController.assignHabit,
   dbController.assignHabit,
   (req, res) => {
-    return res.status(200).json('Added habit!');
+    return res.status(200).json(res.locals.newHabit);
   }
 );
 
