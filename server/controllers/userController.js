@@ -40,6 +40,7 @@ userController.checkUser = (req, res, next) => {
 
 // Get user email from feed request
 userController.getUserInfo = (req, res, next) => {
+  console.log('inside userController.getUserInfo')
   const userId = req.body.userId;
   if (!userId)
     return next({

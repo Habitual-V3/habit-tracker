@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 
 // Link to ElephantSQL DB
 const PG_URI =
-  'postgres://xtybcocp:Aefo98rl2Rta1AUfj4K5jiTVoWUIllWi@kashin.db.elephantsql.com/xtybcocp';
+  'postgres://lygurdee:v1JUAhV3B0kYxC9yAE5qyFoWzvUPdV1R@kashin.db.elephantsql.com/lygurdee';
 
 // Establish connection to DB
 const pool = new Pool({
