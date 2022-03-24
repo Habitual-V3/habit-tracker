@@ -3,47 +3,11 @@ import { connect } from 'react-redux';
 
 
 const AddHabit = (props) => {
-            // const state = props.habits;
-            // const selectedHabit = document.getElementById('habits')
-            // const selectedTarget = 
-
-            // const reqOptions = {
-            //     method: 'PUT',
-            //     headers: { 'Content-Type': 'application/json'},
-            //     body: JSON.stringify({
-            //         userId: userId,
-            //         habitName: selectedHabit,
-            //         targetNum: selectedTarget,
-            //     })
-            // }
-
-    //if props.show is falsey, don't show modal
+    
     if (!props.show) {
         return null;
     }
-    // use ? for optional chaining - if prop doesn't exist, don't move on to next prop
-    // const activeHabits = props.habits?.habits;
-    // console.log('active habits: ', activeHabits)
-    // const activeHabitsArray = [];
-    // for (let key in activeHabits) {
-    //     activeHabitsArray.push(activeHabits[key].habitId);
-    // }
-    // const availableHabits = [];
-    // // nullish coelescing - defaults to right hand value if left hand is null or undefined
-    // // different from OR ( || ) operation because that checks for truthy/falsey
-    // const allHabits = props.habits?.allHabits ?? [];
-    // for (let habit of allHabits) {
-    //     if (activeHabitsArray.indexOf(habit.habitId) === -1) {
-    //         availableHabits.push(habit);
-    //     }
-    // }
-    // const habitsList = []
-    // for (let habit of availableHabits) {
-    //     habitsList.push(
-    //         // <option value={habit.habitId}>{habit.habit}</option>
-    //         <option value={habit.habitId}>{habit.habit}</option>
-    //     )
-    // }
+
     function closeModal () {
         props.showModalAdd();
         console.log(props.show)
@@ -52,7 +16,8 @@ const AddHabit = (props) => {
         //grab input text value
         //modal should close when user clicks submits
         //store to database
-        let newHabit = document.getElementById("newhabit").value
+        let newHabit = document.getElementById('newhabit').value;
+        let targetNum = document.getElementById('targetNumber').value;
         props.showModalAdd()
 
         fetch('http://localhost:3000/edithabit/add', {
@@ -61,7 +26,7 @@ const AddHabit = (props) => {
                 'Content-Type': 'application/json', 
             },
             //store to habits table
-            body: JSON.stringify({userId: props.userId, habitName: newHabit, target_num: null}) 
+            body: JSON.stringify({userId: props.userId, habitName: newHabit, targetNum: targetNum, currentNum: 0}) 
             //server should insert to both habits & user_habits tables
         })
         .then(data => data.json())
@@ -87,7 +52,9 @@ const AddHabit = (props) => {
                 </div>
                 <div className='modal-body'>
                     {/* replace dropdown with input field so user can type whatever they want */}
-                    <input type='text' id='newhabit' placeholder='type here' />
+                    
+                    <input autoComplete="off" type='text' id='newhabit' placeholder='Enter Habit Here' />
+                    <input autoComplete="off" type='number' id='targetNumber' placeholder='Enter Target' />
                     {/* <select list='habits' className='habit-picker' name='habit-choice'> */}
                         {/* { habitsList } */}
                     {/* </select> */}

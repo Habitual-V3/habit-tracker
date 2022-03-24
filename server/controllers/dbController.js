@@ -60,7 +60,7 @@ dbController.checkUser = async (req, res, next) => {
 
 // return past history and today's record
 dbController.getUserInfo = async (req, res, next) => {
-  console.log('inside dbController.getUserInfo')
+  //console.log('inside dbController.getUserInfo')
   const userId = res.locals.userId;
 
   // Get Calendar current date and its the past 27 days
@@ -96,7 +96,7 @@ dbController.getUserInfo = async (req, res, next) => {
 
   // Retrieve today's habit progress
   const todayRecordQuery = `
-    SELECT id, target_num, habit_name
+    SELECT id, target_num, habit_name, current_num
     FROM users
     JOIN user_habits ON users.id=user_habits.user_id
     WHERE users.id=$1`
@@ -133,16 +133,17 @@ dbController.getUserInfo = async (req, res, next) => {
 
 // add a new user-habit pair
 dbController.assignHabit = async (req, res, next) => {
-  console.log('inside dbController.assignHabit')
+  //console.log('inside dbController.assignHabit')
   // add to user-habits table
   const userId = res.locals.userId;
   const habitName = res.locals.habitName;
   const targetNum = res.locals.targetNum;
+  const currentNum = res.locals.currentNum
   const activeBool = true
-  console.log('this is userID', userId, 'this is habitName', habitName, 'this is targetNum', targetNum);
+  //console.log('this is userID', userId, 'this is habitName', habitName, 'this is targetNum', targetNum);
   const insertUserHabitQuery = `
-      INSERT INTO user_habits (user_id, habit_name, target_num, active)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO user_habits (user_id, habit_name, target_num, active, current_num)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
         `;
 
@@ -150,9 +151,10 @@ dbController.assignHabit = async (req, res, next) => {
     userId,
     habitName,
     targetNum,
-    activeBool
+    activeBool, 
+    currentNum
   ]);
-  console.log('insert user habit query result: ', newHabit)
+  //console.log('insert user habit query result: ', newHabit)
   res.locals.newHabit = newHabit.rows
   // add a new user-habit-record row
   // const insertUHRQuery = `
@@ -167,38 +169,53 @@ dbController.assignHabit = async (req, res, next) => {
 
 // update today's record
 dbController.updateRecord = async (req, res, next) => {
+  console.log('inside dbController.updateRecord')
   // update user-habit-records
   const userId = res.locals.userId;
-  const habitId = res.locals.habitId;
-  const newNum = res.locals.newNum;
+  const habitName = res.locals.habitName;
+  const currentNum = res.locals.currentNum;
+  
+  const updateCurrentNum = `
+    UPDATE user_habits
+    SET current_num = $1
+    WHERE user_id = $2 AND habit_name = $3;`
 
+  const updatedNum = await db.query(updateCurrentNum, [currentNum, userId, habitName]);
+  //console.log('db updated num: ', updatedNum)
+  
   // find target number
   const targetQuery = `
-    SELECT target_num FROM user_habits
-    WHERE user_id=$1 AND habit_id=$2;
+    SELECT target_num, current_num FROM user_habits
+    WHERE user_id=$1 AND habit_name=$2;
     `;
-  const targetNum = await db.query(targetQuery, [userId, habitId]);
+  const targetNum = await db.query(targetQuery, [userId, habitName]);
+  // , [userId, habitName]
+  //console.log('target number here: ', targetNum)
   const target = targetNum.rows[0].target_num;
+  const current = targetNum.rows[0].current_num;
   //console.log(target, typeof target);
-  let newPercent = 0;
-  if (typeof target === 'number') {
-    newPercent = newNum / target;
-  } else {
-    newPercent = newNum ? 1 : 0;
-  }
+  let newPercent = current / target;
+
+  // newPercent = current ? 1 : 0;
+ 
+  //console.log('new percent here: ', newPercent)
 
   const updateUHRQuery = `
       UPDATE user_habit_records
-      SET fullfilled_percent=$1
-      WHERE user_id=$2 AND habit_id=$3 AND date=(SELECT CURRENT_DATE)
+      SET fulfilled_percent=$1
+      WHERE user_id=$2 AND habit_name=$3 AND date=(SELECT CURRENT_DATE)
+      RETURNING *;
       `;
-  const updateUHR = await db.query(updateUHRQuery, [
+  const habitInfo = await db.query(updateUHRQuery, [
     newPercent,
     userId,
-    habitId,
+    habitName,
   ]);
+  console.log('-----------habitInfo here', habitInfo.rows[0])
+  res.locals.habit = habitInfo.rows[0];
 
 
+//////////Start here?!///////
   // let newDailyPercent = (Sum all fullfilled_percent from UHR) / number of habits on selected date
   // const getAllPercent
   

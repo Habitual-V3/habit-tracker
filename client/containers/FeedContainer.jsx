@@ -41,7 +41,7 @@ class FeedContainer extends Component {
 				// console.log('state: ', this.props.state)
         // console.log('calendar', this.props) 
 				// console.log('showmodal: ', this.props.showModal)
-				console.log('habits in state: ', this.props.habits)
+				//console.log('habits in state: ', this.props.habits)
 
         return(
             <div>
@@ -63,6 +63,7 @@ class FeedContainer extends Component {
                 <Calendar 
                     calendarData={this.props.calendar}/>
                 <ToDos 
+										userId={this.props.userId}
 								    show={this.props.showModal}
 										showModalAdd={this.props.showModalAction}
                     // show={this.props.showModalEdit} 
