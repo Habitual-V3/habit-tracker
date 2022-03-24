@@ -15,7 +15,6 @@ const LoginForm = (props) => {
       body: JSON.stringify({ email: email, password: password})
     }
     
-    // console.log('here', props.getFeed)
     fetch('http://localhost:3000/login', reqOptions)
     .then(res => {
       return res.json()
@@ -36,15 +35,15 @@ const LoginForm = (props) => {
         .then(res => res.json())
         .then(data=> {
           console.log('login form data: ', data)
-          props.getFeed({...data, userId: authStatus.userid})
+          props.getFeed({...data, userId: authStatus.userid, firstName: authStatus.first_name})
           navigate('/feed')
           }
         )
 
-      } // to close 25
+      } 
 
-    })  // to close 23
-  } // to close 9
+    })  
+  } 
 
   function signupForm () {
     navigate('/signup');
@@ -53,7 +52,6 @@ const LoginForm = (props) => {
   return (
     <div id='login-form'>
       <h1>Habitual</h1>
-      {/* <Link to="/feed">About</Link> */}
       <div className='wrapper-login'>
         <input autoComplete="off" type='text' className='login-input' id='username-input' name='username-input' placeholder='Email' />
         <input autoComplete="off" type='password' className='login-input' id='password-input' name='password-input' placeholder='Password' />
