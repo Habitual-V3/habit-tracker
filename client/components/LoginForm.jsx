@@ -33,13 +33,11 @@ const LoginForm = (props) => {
         }
         
         fetch('http://localhost:3000/feed', req)
-        .then(res => {
-          // console.log(JSON.parse(res))
-          return res.json()
-        }).then(data=> {
+        .then(res => res.json())
+        .then(data=> {
           console.log('login form data: ', data)
-          props.getFeed({...data, userId: authStatus.userid});
-          navigate('/feed');
+          props.getFeed({...data, userId: authStatus.userid})
+          navigate('/feed')
           }
         )
 

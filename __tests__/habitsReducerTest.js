@@ -17,6 +17,7 @@ describe('Habits Reducer', () => {
           type: 'number',
           status: 1,
           goal: 10,
+          current_num : 1,
           completed: false,
         },
       ],
@@ -25,53 +26,8 @@ describe('Habits Reducer', () => {
       // showModalAdd: false,
       // showModalEdit: false,
       showModal: false,
-      allHabits: [
-        {
-          habit: "Drink water",
-          habitId: 1,
-          isBoolean: false
-        },
-        {
-          habit: "Make bed",
-          habitId: 2,
-          isBoolean: true
-        },
-        {
-          habit: "Walk dog",
-          habitId: 3,
-          isBoolean: false
-        },
-        {
-          habit: "Sleep on time",
-          habitId: 4,
-          isBoolean: true
-        },
-        {
-          habit: "Stretch",
-          habitId: 5,
-          isBoolean: false
-        },
-      ]
     }; //end of state
-    user = {
-      userId: 1,
-      habits: [
-        {
-          id: 1,
-          habitName: 'drink water',
-          targetNum: 8,
-          //currentNum: 0,
-        },
-        {
-          id: 2,
-          habitName: 'walk dog',
-          targetNum: 1,
-          //currentNum: 0,
-        }
-      ],
-      calendar: [0.75, 1, 1, 1, 1, 1, 0.5, 1, 0.75, 0.8, 1, 1, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    }
-    // end of fake user
+    
   }); //end of beforeEach function
   
   // describe('default state upon opening application', () => {
@@ -97,15 +53,15 @@ describe('Habits Reducer', () => {
         habits: [
           {
             id: 1,
-            habitName: 'drink water',
-            targetNum: 8,
-            //currentNum: 0,
+            habit_name: 'Drink water',
+            target_num: 8,
+            current_num: 0,
           },
           {
             id: 2,
-            habitName: 'walk dog',
-            targetNum: 1,
-            //currentNum: 0,
+            habit_name: 'walk dog',
+            target_num: 1,
+            current_num: 0,
           }
         ],
         calendar: [0.75, 1, 1, 1, 1, 1, 0.5, 1, 0.75, 0.8, 1, 1, 1, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -124,14 +80,15 @@ describe('Habits Reducer', () => {
       expect(habits).toEqual([
         {
           id: 1,
-          habitName: 'drink water',
-          targetNum: 8,
+          habit_name: 'Drink water',
+          target_num: 8,
+          current_num: 0,
         },
         {
           id: 2,
-          habitName: 'walk dog',
-          targetNum: 1,
-          // currentNum: 0,
+          habit_name: 'walk dog',
+          target_num: 1,
+          current_num: 0,
         }
       ]);
     });
@@ -143,9 +100,39 @@ describe('Habits Reducer', () => {
     })
   })
 
-  // describe('INCREMENT_NUM_HABIT', () => {
-  //   it ('should return state with selected habits current num property incremented by 1')
-  // })
+  describe('SHOW_MODAL', () => {
+    const action = {
+      type: 'SHOW_MODAL',
+      payload: true,
+    }
+    const action2 = {
+      type: 'SHOW_MODAL',
+      payload: false,
+    }
+
+    it ('updates boolean value of show modal in state', () => {
+      const newState = reducer(state, action);
+      expect(newState.showModal).toEqual(true);
+      const { showModal } = reducer(newState, action2);
+      expect(showModal).toEqual(false);
+    })
+  })
+
+  describe('INCREMENT_NUM_HABIT', () => {
+    const action = {
+      type: 'INCREMENT_NUM_HABIT',
+      payload: 'drink water'
+    }
+    it ('should return new state object', () => {
+      const newState = reducer(state, action);
+      expect(newState).not.toBe(state);
+    })
+
+    it('should incremement habit currentNum by 1', () => {
+      const newState = reducer(state, action);
+      expect(newState.habits[0].current_num).toEqual(1);
+    })
+  })
 
 
 

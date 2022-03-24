@@ -34,9 +34,9 @@ export const uncompleteBoolHabitActionCreator = habitId => ({
   payload: habitId,
 });
 
-export const incrementNumHabitActionCreator = habitId => ({
+export const incrementNumHabitActionCreator = habit => ({
   type: types.INCREMENT_NUM_HABIT,
-  payload: habitId,
+  payload: habit,
 });
 
 export const decrementNumHabitActionCreator = habitId => ({

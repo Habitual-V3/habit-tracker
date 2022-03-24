@@ -54,7 +54,7 @@ userController.getUserInfo = (req, res, next) => {
 };
 
 userController.assignHabit = (req, res, next) => {
-  const { userId, habitName, targetNum } = req.body;
+  const { userId, habitName, targetNum, currentNum } = req.body;
   // const habitPairs = {
   //   Water: 1,
   //   'Make Bed': 2,
@@ -65,21 +65,26 @@ userController.assignHabit = (req, res, next) => {
   res.locals.userId = userId;
   res.locals.habitName = habitName;
   res.locals.targetNum = targetNum;
+  res.locals.currentNum = currentNum;
   return next();
 };
 
 userController.updateRecord = (req, res, next) => {
-  const { userId, habitName, newNum } = req.body;
-  const habitPairs = {
-    Water: 1,
-    'Make Bed': 2,
-    'Walk Dog': 3,
-    'Sleep on Time': 4,
-    Stretch: 5,
-  };
+  // y({userId: props.userId, habitName: habitName, currentNum: currentNum, targetNum: targetNum}) 
+  const { userId, habitName, currentNum, targetNum } = req.body;
+  // console.log('currentNum: ', currentNum)
+  // const habitPairs = {
+  //   Water: 1,
+  //   'Make Bed': 2,
+  //   'Walk Dog': 3,
+  //   'Sleep on Time': 4,
+  //   Stretch: 5,
+  // };
   res.locals.userId = userId;
-  res.locals.habitId = habitPairs[habitName];
-  res.locals.newNum = newNum;
+
+  res.locals.habitName = habitName;
+  res.locals.currentNum = currentNum;
+  res.locals.targetNum = targetNum;
   return next();
 };
 
