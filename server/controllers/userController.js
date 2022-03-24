@@ -1,21 +1,32 @@
+const { restart } = require("nodemon");
+const dbModels = require("../models/dbModels");
+
 const userController = {};
 
 // Rextract and save new user's account info from frontend into res.locals
 userController.addUser = (req, res, next) => {
-  const userProps = ['firstName', 'lastName', 'username', 'email', 'password'];
-  res.locals.newUser = {};
+  const { firstName, lastName, username, email, password } = req.body
 
-  for (const prop of userProps) {
-    if (!req.body[prop]) {
-      return next({
-        log: 'UserController.addUser ERROR: Properties on request body undefined',
-        message: {
-          err: 'UserController.addUser ERROR: Incorrect data received',
-        },
-      });
-    }
-    res.locals.newUser[prop] = req.body[prop];
-  }
+  res.locals.firstname = firstName;
+  res.locals.lastname = lastName;
+  res.locals.username = username;
+  res.locals.email = email;
+  res.locals.password = password;
+  
+  // const userProps = ['firstName', 'lastName', 'username', 'email', 'password'];
+  // res.locals.newUser = {};
+
+  // for (const prop of userProps) {
+  //   if (!req.body[prop]) {
+  //     return next({
+  //       log: 'UserController.addUser ERROR: Properties on request body undefined',
+  //       message: {
+  //         err: 'UserController.addUser ERROR: Incorrect data received',
+  //       },
+  //     });
+  //   }
+  //   res.locals.newUser[prop] = req.body[prop];
+  // }
   return next();
 };
 

@@ -10,16 +10,29 @@ const SignupForm = () => {
   }
 
   function signupFunc () {
-    const firstname = document.querySelector('#firstname-input').value;
-    const lastname = document.querySelector('#lastname-input').value;
-    const username = document.querySelector('#username-input').value;
-    const email = document.querySelector('#email-input').value;
-    const password = document.querySelector('#password-input').value;
+    const firstname = document.getElementById('firstname-input').value;
+    const lastname = document.getElementById('lastname-input').value;
+    const username = document.getElementById('username-input').value;
+    const email = document.getElementById('email-input').value;
+    const password = document.getElementById('password-input').value;
 
+    fetch('http://localhost:3000/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({firstName: firstname, lastName: lastname, username: username, email: email, password: password})
+    })
+    .then(res => {
+      return res.json()
+    })
+    .then((res) => {
+        navigate('/')
+    })  // to close 23
+  
+  
     // CHANGE ME TO DO THIS ON SUCCESSFUL USER CREATION
-    if (true) {
-      navigate('/feed')
-    }
+    // if (true) {
+    //   navigate('/feed')
+    // }
   }
 
   return (

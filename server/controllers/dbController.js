@@ -3,26 +3,21 @@ const db = require('../models/dbModels');
 
 // Store new user's account info into Databse
 dbController.saveUser = async (req, res, next) => {
-  const { firstName, lastName, username, email, password } = res.locals.newUser,
-  params = [firstName, lastName, username, email, password];
-  try {
-    const saveUserQuery = `
-        INSERT INTO users (first_name, last_name, user_name, email, password)
-        VALUES($1, $2, $3, $4, $5)
-        RETURNING *
-        `;
-    const newUser = await db.query(saveUserQuery, params);
-    res.locals.userId = newUser.rows[0].id;
-    return next();
-  } catch (error) {
-    return next({
-      log: 'Express error in saveUser middleware',
-      status: 400,
-      message: {
-        err: `dbController.saveUser: ERROR: ${error}`,
-      },
-    });
-  }
+  const firstName = res.locals.firstname
+  const lastName = res.locals.lastname
+  const username = res.locals.username
+  const email = res.locals.email
+  const password = res.locals.password
+
+  const params = [firstName, lastName, username, email, password];
+  const saveUserQuery = `
+      INSERT INTO users (first_name, last_name, user_name, email, password)
+      VALUES($1, $2, $3, $4, $5)
+      RETURNING *
+      `;
+  const newUser = await db.query(saveUserQuery, params);
+  res.locals.userId = newUser.rows[0].id;
+  return next();
 };
 
 // Validate matching user info from frontend and database
