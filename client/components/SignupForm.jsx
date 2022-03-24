@@ -26,13 +26,7 @@ const SignupForm = () => {
     })
     .then((res) => {
         navigate('/')
-    })  // to close 23
-  
-  
-    // CHANGE ME TO DO THIS ON SUCCESSFUL USER CREATION
-    // if (true) {
-    //   navigate('/feed')
-    // }
+    }) 
   }
 
   return (

@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const TopBar = (props) => {
     const navigate = useNavigate();
+    const firstName = props.firstName;
 
     function logoutClick () {
-        // TODO: add functionality to log out user
         navigate('/');
     }
     function addHabit () {
@@ -17,7 +17,8 @@ const TopBar = (props) => {
     return (
         <div className="topbar">
             <div id='logo'>H</div>
-            <button id='add-hbt' onClick={addHabit}><span id="plus-icon">+&nbsp;</span>&nbsp;Add habit</button>
+            <button id='add-hbt' onClick={addHabit}><span id="plus-icon">+&nbsp;</span>&nbsp;Add Habit</button>
+            <div id='firstName'>Hi, {firstName}</div>
             <div id='link-logout' onClick={logoutClick}>
                 Logout
             </div>

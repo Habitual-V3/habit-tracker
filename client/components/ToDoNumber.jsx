@@ -1,15 +1,10 @@
 import React from 'react';
 
 const ToDoNumber = (props) => {
-    // console.log("Todonumber", props);
     const habit = props.habit;
-    //console.log('habit passed down: ', habit)
     const habitName = habit.habit_name
-    // console.log('habit name: ', habitName)
     let currentNum = habit.current_num;
     const targetNum = habit.target_num
-    // console.log('habit name: ', habit_name)
-    // const percentage = habit[3];
 
     function increment() {
         if (habit.current_num === habit.target_num) return alert('target num has already been reached you\'re gonna drown or pull a muscle or sleep too early or hurt your dog.')
@@ -25,10 +20,7 @@ const ToDoNumber = (props) => {
         })
         .then(data => data.json())
         .then(data => {
-            // console.log('--------------habitName: ', data.habitName)
-            // props.incrementNum(data.habitName)
-            // also invoke calendar reducer for currentday/last element of calendar
-            
+            console.log(data)
         })
     };
 

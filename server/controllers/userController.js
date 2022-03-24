@@ -51,7 +51,7 @@ userController.checkUser = (req, res, next) => {
 
 // Get user email from feed request
 userController.getUserInfo = (req, res, next) => {
-  console.log('inside userController.getUserInfo')
+
   const userId = req.body.userId;
   if (!userId)
     return next({
@@ -66,13 +66,7 @@ userController.getUserInfo = (req, res, next) => {
 
 userController.assignHabit = (req, res, next) => {
   const { userId, habitName, targetNum, currentNum } = req.body;
-  // const habitPairs = {
-  //   Water: 1,
-  //   'Make Bed': 2,
-  //   'Walk Dog': 3,
-  //   'Sleep on Time': 4,
-  //   Stretch: 5,
-  // };
+
   res.locals.userId = userId;
   res.locals.habitName = habitName;
   res.locals.targetNum = targetNum;
@@ -83,14 +77,7 @@ userController.assignHabit = (req, res, next) => {
 userController.updateRecord = (req, res, next) => {
   // y({userId: props.userId, habitName: habitName, currentNum: currentNum, targetNum: targetNum}) 
   const { userId, habitName, currentNum, targetNum } = req.body;
-  // console.log('currentNum: ', currentNum)
-  // const habitPairs = {
-  //   Water: 1,
-  //   'Make Bed': 2,
-  //   'Walk Dog': 3,
-  //   'Sleep on Time': 4,
-  //   Stretch: 5,
-  // };
+
   res.locals.userId = userId;
 
   res.locals.habitName = habitName;

@@ -11,7 +11,7 @@ router.post(
   dbController.checkUser,
   (req, res) => {
     // frontend receives and store userId in redux
-    return res.status(200).json(res.locals.userId);
+    return res.status(200).json(res.locals.user);
   }
 );
 
