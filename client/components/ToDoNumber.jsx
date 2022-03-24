@@ -5,7 +5,7 @@ const ToDoNumber = (props) => {
     const habit = props.habit;
     //console.log('habit passed down: ', habit)
     const habitName = habit.habit_name
-    //console.log('habit name: ', habitName)
+    // console.log('habit name: ', habitName)
     let currentNum = habit.current_num;
     const targetNum = habit.target_num
     // console.log('habit name: ', habit_name)
@@ -25,40 +25,50 @@ const ToDoNumber = (props) => {
         })
         .then(data => data.json())
         .then(data => {
-            console.log('--------------habitName: ', data.habitName)
+            // console.log('--------------habitName: ', data.habitName)
             // props.incrementNum(data.habitName)
             // also invoke calendar reducer for currentday/last element of calendar
             
         })
+    };
+
+    function deleteHabitFunc() {
+        props.deleteHabit(habitName);
+
+        fetch('http://localhost:3000/edithabit/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify({userId: props.userId, habitName: habitName}) 
+        })
+        .then(data => data.json())
+        .then(response => {
+            console.log('res status: ', response.status)
+            if (response.status === 200) {
+                console.log('habit name here here: ', habitName)
+            }
+        })
+    }
         
-        // if (habit.status < habit.goal) {
-        //     props.incrementNum(habit[0]);
-        //     //add PUT req to backend
-        // }
-    }
-    function decrement() {
-        if (habit.status > 0) {
-            props.decrementNum(habit[0]);
-            // add PUT req to backend
-        }
-    }
-    const editHabit = () => {
-        props.show();
-    }
-    let percentage = Math.floor((habit.current_num / habit.target_num) * 100)
+     
+    let status;
+    let percentage = Math.floor((habit.current_num / habit.target_num) * 100);
+    (currentNum === targetNum) ? status = 'Completed' : status = 'Incomplete';
     return (
         <div className='item-todo'>
             <div className='wrapper-habit-text'>
                 <div className='habit-name habit-text'>{habitName}</div>
-                {/* <div className='habit-status habit-text'>{`${habit.status} / ${habit.goal}`}</div> */}
+                <div className='habit-status habit-text'>{status}</div>
             </div>
             <div className='progress-container'>
                 <div className='wrapper-progressbar' onClick={()=>{}}>
                     <div className='progressbar' style={{width: `${percentage}%`}}></div>
                 </div>
                 <div className='wrapper-btns'>
-                    {/* <div className='btn-progress minus' onClick={decrement}>-</div> */}
                     <div className='btn-progress plus' onClick={increment}>+</div>
+                    <div className='btn-progress minus' onClick={deleteHabitFunc}>Delete</div>
+                    
                 </div>
             </div>
         </div>

@@ -19,9 +19,9 @@ export const createHabitActionCreator = habitId => ({
   payload: habitId,
 });
 
-export const deactivateHabitActionCreator = habitId => ({
-  type: types.DEACTIVATE_HABIT,
-  payload: habitId,
+export const deleteHabitActionCreator = habit => ({
+  type: types.DELETE_HABIT,
+  payload: habit,
 });
 
 export const completeBoolHabitActionCreator = habitId => ({

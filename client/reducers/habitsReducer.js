@@ -47,48 +47,29 @@ const habitsReducer = (state = initialState, action) => {
       return copyState
     }
 
+    case types.DELETE_HABIT: {
+      const copyState = JSON.parse(JSON.stringify(state));
+      const habitsCopy = copyState.habits;
+      for (let i = 0; i < habitsCopy.length; i++) {
+        if (habitsCopy[i].habit_name === action.payload) {
+          habitsCopy.splice(i, 1);
+        }
+      }
+      console.log('STATE: ', copyState.habits)
+      return {...copyState, habitsCopy};
+    }
+
+      
+
 
     // INCOMPLETE / REDUCERS NOT BEING USED CURRENTLY 
-
-    case types.COMPLETE_BOOL_HABIT: {
-      const habits = [];
-      for (let i = 0; i < state.habits.length; i++) {
-        habits.push({...state.habits[i]});
-        if (habits[i].habitId === action.payload ) {
-          habits[i].completed = true;
-        }
-      }
-
-      return {
-        ...state,
-        habits
-      };
-    }
-
-    case types.UNCOMPLETE_BOOL_HABIT: {
-      const habits = [];
-      for (let i = 0; i < state.habits.length; i++) {
-        habits.push({...state.habits[i]});
-
-        if (habits[i].habitId === action.payload ) {
-          habits[i].completed = false;
-        }
-      }
-      return {
-        ...state,
-        habits
-      };
-    }
-
-    // case types.INCREMENT_NUM_HABIT: {
+    
+    // case types.COMPLETE_BOOL_HABIT: {
     //   const habits = [];
     //   for (let i = 0; i < state.habits.length; i++) {
     //     habits.push({...state.habits[i]});
-
-    //     // increment the status for the target habit, if this completes habit change to completed
     //     if (habits[i].habitId === action.payload ) {
-    //       habits[i].status++;
-    //       if (habits[i].status === habits[i].goal) habits[i].completed = true;
+    //       habits[i].completed = true;
     //     }
     //   }
 
@@ -98,23 +79,20 @@ const habitsReducer = (state = initialState, action) => {
     //   };
     // }
 
-    // case types.DECREMENT_NUM_HABIT: {
+    // case types.UNCOMPLETE_BOOL_HABIT: {
     //   const habits = [];
     //   for (let i = 0; i < state.habits.length; i++) {
     //     habits.push({...state.habits[i]});
 
     //     if (habits[i].habitId === action.payload ) {
-    //       if (habits[i].completed === true) habits[i].completed = false;
-    //       if (habits[i].status > 0) habits[i].status--;
+    //       habits[i].completed = false;
     //     }
     //   }
-    //     return {
-    //       ...state,
-    //       habits,
-    //     };
-    // }
-
-      
+    //   return {
+    //     ...state,
+    //     habits
+    //   };
+    // } 
 
     case types.SHOW_MODAL_EDIT: {
       let showModalEdit = true;

@@ -81,6 +81,22 @@ dbController.getUserInfo = async (req, res, next) => {
   // console.log('CALENDAR: ', res.locals.calendarRecord)
 
   // Get today's habit progress
+  const todayHabitQuery = `
+    SELECT * FROM user_habit_records
+    WHERE date=(SELECT CURRENT_DATE) AND user_id=$1
+    `;
+  // const todayResult = await db.query(todayHabitQuery, [userId]);
+
+  // if(!todayResult.rows.length) {
+  //   const insertDailyHabitsQuery = `
+  //     INSERT INTO user_habit_records(user_id, date, fulfilled_percent, habit_name)
+  //     VALUES()`
+  
+    
+  //   }
+  
+  
+
 
   //[[habit_name, targetNum, fullfilled_percent]]
   // [["water", 5, 0.5], ["Make bed",NULL, 0]]
@@ -94,20 +110,30 @@ dbController.getUserInfo = async (req, res, next) => {
   //       WHERE user_id=$1 AND date=(SELECT CURRENT_DATE);
   //       `;
 
-  // Retrieve today's habit progress
-  const todayRecordQuery = `
+  // search for UHR or daily count where date=(SELECT CURRENT_DATE)
+  // set equal to 'dayCheck'
+  // will be used in conditional below
+
+  // if (dayCheck query return empty result) {
+  //    update userHabits table current_num values to zero and send to user in response object}
+  // else (send user habits table to user without updating the current_num values in database)
+
+  // Retrieve users' habits
+  const usersHabits = `
     SELECT id, target_num, habit_name, current_num
     FROM users
     JOIN user_habits ON users.id=user_habits.user_id
     WHERE users.id=$1`
+
   // `
   //       SELECT user_id, habit_id, fullfilled_percent, habit_name
   //       FROM user_habit_records uhr
   //       JOIN habits h ON uhr.habit_id = h.id
   //       WHERE date=(SELECT CURRENT_DATE) AND uhr.user_id=$1`;
-  const todayRecord = await db.query(todayRecordQuery, [userId]);
+  const savedHabits = await db.query(usersHabits, [userId]);
   // console.log('TODAY RECORD: ', todayRecord)
-  res.locals.habits = todayRecord.rows;
+  res.locals.habits = savedHabits.rows;
+
 
   // // Extract data from database and store into habit
   // for (let row of todayRecord.rows) {
@@ -169,7 +195,7 @@ dbController.assignHabit = async (req, res, next) => {
 
 // update today's record
 dbController.updateRecord = async (req, res, next) => {
-  console.log('inside dbController.updateRecord')
+  // console.log('inside dbController.updateRecord')
   // update user-habit-records
   const userId = res.locals.userId;
   const habitName = res.locals.habitName;
@@ -196,26 +222,35 @@ dbController.updateRecord = async (req, res, next) => {
   //console.log(target, typeof target);
   let newPercent = current / target;
 
-  // newPercent = current ? 1 : 0;
- 
-  //console.log('new percent here: ', newPercent)
-
   const updateUHRQuery = `
       UPDATE user_habit_records
       SET fulfilled_percent=$1
       WHERE user_id=$2 AND habit_name=$3 AND date=(SELECT CURRENT_DATE)
       RETURNING *;
       `;
+  
   const habitInfo = await db.query(updateUHRQuery, [
     newPercent,
     userId,
     habitName,
   ]);
+
+  // if(!habitInfo.rows.length) {
+  //   const date = 'SELECT CURRENT_DATE'
+  //   const addRecordQuery = `
+  //     INSERT INTO user_habit_records(user_id, date, fulfilled_percent, habit_name)
+  //     VALUES($1, $2, $3, $4)`
+
+  //   const newRecord = await db.query(addRecordQuery, [userId, date, newPercent, habitName])
+  //   res.locals.habit = newRecord.rows[0]
+  // }
+
   console.log('-----------habitInfo here', habitInfo.rows[0])
   res.locals.habit = habitInfo.rows[0];
 
 
-//////////Start here?!///////
+
+
   // let newDailyPercent = (Sum all fullfilled_percent from UHR) / number of habits on selected date
   // const getAllPercent
   
@@ -231,4 +266,15 @@ dbController.updateRecord = async (req, res, next) => {
   return next();
 };
 
+dbController.deleteHabit = async(req, res, next) => {
+  const userId = res.locals.userId;
+  const habitName = res.locals.habitName;
+
+  const deleteQuery = `
+    DELETE FROM user_habits
+    WHERE user_id=$1 AND habit_name=$2;
+  `
+  await db.query(deleteQuery, [userId, habitName])
+  return next()
+}
 module.exports = dbController;
