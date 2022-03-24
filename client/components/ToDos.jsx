@@ -15,8 +15,8 @@ const ToDos = (props) => {
         //example habit obj {habit_name: 'stretch', id: 1, target_num: 3, current_num: 3}
         //if target num > 1 and not nulm
         if (habit.target_num !== 1 && habit.target_num !== null) {
-            todoList.push(<ToDoNumber userId={props.userId} show={props.show} incrementNum={props.incrementNum} decrementNum={props.decrementNum} habit={habit} />)
-        } else todoList.push(<ToDoBoolean userId={props.userId} show={props.show} completeBool={props.completeBool} habit={habit} />)
+            todoList.push(<ToDoNumber deleteHabit={props.deleteHabit} userId={props.userId} show={props.show} incrementNum={props.incrementNum} decrementNum={props.decrementNum} habit={habit} />)
+        } else todoList.push(<ToDoBoolean deleteHabit={props.deleteHabit} userId={props.userId} show={props.show} incrementNum={props.incrementNum} habit={habit} />)
     }
     
     return (
@@ -27,45 +27,3 @@ const ToDos = (props) => {
 };
 
 export default ToDos;
-
-{/* <div className='item-todo'>
-                <div className='habit-name'>
-                    Drink water
-                </div>
-                <div className='progress-container'>
-                    <div className='wrapper-progressbar'>
-                        <div className='progressbar' style={{width: "60%"}}></div>
-                    </div>
-                    <div className='wrapper-btns'>
-                        <div className='btn-progress minus'>-</div>
-                        <div className='btn-progress plus'>+</div>
-                    </div>
-                </div>
-            </div>
-            <div className='item-todo'>
-                <div className='habit-name'>
-                    Walk dog
-                </div>
-                <div className='progress-container'>
-                    <div className='wrapper-progressbar'>
-                        <div className='progressbar' style={{width: "20%"}}></div>
-                    </div>
-                    <div className='wrapper-btns'>
-                        <div className='btn-progress minus'>-</div>
-                        <div className='btn-progress plus'>+</div>
-                    </div>
-                </div>
-            </div>
-            <div className='item-todo'>
-                <div className='habit-name'>
-                    Sleep on time
-                </div>
-                <div className='progress-container'>
-                    <div className='wrapper-progressbar'>
-                        <div className='progressbar' style={{width: "0%"}}></div>
-                    </div>
-                    <div className='wrapper-btns'>
-                        <div className='btn-check'>	&#10003;</div>
-                    </div>
-                </div>
-            </div> */}

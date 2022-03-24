@@ -3,29 +3,6 @@ import { connect } from 'react-redux';
 
 
 const EditHabit = (props) => {
-    // const reqOptions = {
-    //     method: 'PUT',
-    //     headers: { 'Content-Type': 'application/json'},
-    //     body: JSON.stringify({
-    //         userId: userId,
-    //         habitName: state.habit,
-    //         newNum: habit.goal,
-    //     })
-    // }
-    // function incrementTarget() {
-    //     if (habit.goal) {
-    //         habit.goal += 1;
-    //         //PUT request to backend
-    //         // fetch('http://localhost:3000/edithabit/update', reqOptions).then(response => response.json()).then(data => console.log(data))
-    //     }
-    // }
-    // function decrementTarget() {
-    //     if (habit.goal) {
-    //         habit.goal -=1;
-    //          //PUT request to backend
-    //         // fetch('http://localhost:3000/edithabit/update', reqOptions).then(response => response.json()).then(data => console.log(data))
-    //     }
-    // }
     if (!props.show) {
         return null;
     }

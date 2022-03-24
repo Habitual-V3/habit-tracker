@@ -38,11 +38,6 @@ const AddHabit = (props) => {
         })
     }
 
-    // const handleSelectChange = (e) => {
-    //     console.log('hit');
-    // }
-
-    //
     return (
         <div className='modal-bg'>  
             <div className='modal'>
@@ -51,13 +46,8 @@ const AddHabit = (props) => {
                     <h3 className='modal-title'>Add a New Habit</h3>
                 </div>
                 <div className='modal-body'>
-                    {/* replace dropdown with input field so user can type whatever they want */}
-                    
                     <input autoComplete="off" type='text' id='newhabit' placeholder='Enter Habit Here' />
-                    <input autoComplete="off" type='number' id='targetNumber' placeholder='Enter Target' />
-                    {/* <select list='habits' className='habit-picker' name='habit-choice'> */}
-                        {/* { habitsList } */}
-                    {/* </select> */}
+                    <input autoComplete="off" type='number' id='targetNumber' placeholder='Enter Goal Number' />
                     <div className='wrapper-editHabit hidden'>
                         <div className='edit-decrement'>-</div>
                         <input type='text' className='edit-field' value='1'></input>

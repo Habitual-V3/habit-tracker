@@ -12,7 +12,7 @@ describe('Habits Reducer', () => {
     
       habits: [
         {
-          habit: 'Drink water',
+          habit_name: 'Drink water',
           habitId: 1,
           type: 'number',
           status: 1,
@@ -121,7 +121,7 @@ describe('Habits Reducer', () => {
   describe('INCREMENT_NUM_HABIT', () => {
     const action = {
       type: 'INCREMENT_NUM_HABIT',
-      payload: 'drink water'
+      payload: 'Drink water'
     }
     it ('should return new state object', () => {
       const newState = reducer(state, action);
@@ -131,6 +131,21 @@ describe('Habits Reducer', () => {
     it('should incremement habit currentNum by 1', () => {
       const newState = reducer(state, action);
       expect(newState.habits[0].current_num).toEqual(1);
+    })
+  })
+
+  describe('DELETE_HABIT', () => {
+    const action = {
+      type: 'DELETE_HABIT',
+      payload: 'Drink water'
+    }
+    it ('should return new state object', () => {
+      const newState = reducer(state, action);
+      expect(newState).not.toBe(state);
+    })
+    it('should delete habit from habits array', () => {
+      const newState = reducer(state, action);
+      expect(newState.habits.length).toEqual(0);
     })
   })
 

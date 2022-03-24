@@ -24,4 +24,14 @@ router.post(
   }
 );
 
+// delete habit
+router.delete(
+  '/delete',
+  userController.updateRecord,
+  dbController.deleteHabit,
+  (req, res) => {
+    return res.status(200);
+  }
+)
+
 module.exports = router;

@@ -29,7 +29,8 @@ const mapDispatchToProps = (dispatch) => ({
 	showModalAction: (show) => dispatch(actions.modalActionCreator(show)),
   showModalEdit: (show) => dispatch(actions.showModalEditActionCreator(show)),
   hideModalEdit: (show) => dispatch(actions.hideModalEditActionCreator(show)),
-	addNewHabit: (habit) => dispatch(actions.createHabitActionCreator(habit))
+	addNewHabit: (habit) => dispatch(actions.createHabitActionCreator(habit)), 
+  deleteHabit: (habit) => dispatch(actions.deleteHabitActionCreator(habit))
 });
 
 class FeedContainer extends Component {
@@ -70,7 +71,8 @@ class FeedContainer extends Component {
                     completeBool={this.props.completeBoolHabit} 
                     incrementNum={this.props.incrementNumHabit} 
                     decrementNum={this.props.decrementNumHabit} 
-                    habits={this.props.habits}/>
+                    habits={this.props.habits}
+                    deleteHabit={this.props.deleteHabit}/>
                 {/* <Completed 
                     show={this.props.showModalEdit} 
                     uncompleteBool={this.props.uncompleteBoolHabit} 
