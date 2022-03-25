@@ -12,8 +12,8 @@ const ToDos = (props) => {
 
     for (let habit of habits) {
         if (habit.target_num !== 1 && habit.target_num !== null) {
-            todoList.push(<ToDoNumber deleteHabit={props.deleteHabit} userId={props.userId} show={props.show} incrementNum={props.incrementNum} decrementNum={props.decrementNum} habit={habit} />)
-        } else todoList.push(<ToDoBoolean deleteHabit={props.deleteHabit} userId={props.userId} show={props.show} incrementNum={props.incrementNum} habit={habit} />)
+            todoList.push(<ToDoNumber updateDailyAverage={props.updateDailyAverage} deleteHabit={props.deleteHabit} userId={props.userId} show={props.show} incrementNum={props.incrementNum} decrementNum={props.decrementNum} habit={habit} />)
+        } else todoList.push(<ToDoBoolean updateDailyAverage={props.updateDailyAverage} deleteHabit={props.deleteHabit} userId={props.userId} show={props.show} incrementNum={props.incrementNum} habit={habit} />)
     }
     
     return (

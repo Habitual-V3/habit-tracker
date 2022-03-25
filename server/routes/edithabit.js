@@ -20,7 +20,7 @@ router.post(
   userController.updateRecord,
   dbController.updateRecord,
   (req, res) => {
-    return res.status(200).json(res.locals.habit);
+    return res.status(200).json({ habit: res.locals.habit, dailyAverage: res.locals.dailyAverage});
   }
 );
 

@@ -34,3 +34,8 @@ export const modalActionCreator = show => ({
   type: types.SHOW_MODAL, 
   payload: show
 })
+
+export const updateDailyAverageActionCreator = percentage => ({
+  type: types.UPDATE_DAILY_AVERAGE,
+  payload: percentage
+})

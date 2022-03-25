@@ -8,7 +8,8 @@ const ToDoNumber = (props) => {
 
     function increment() {
         if (habit.current_num === habit.target_num) return alert('target num has already been reached you\'re gonna drown or pull a muscle or sleep too early or hurt your dog.')
-        props.incrementNum(habitName)
+        
+       
         currentNum = habit.current_num
 
         fetch('http://localhost:3000/edithabit/update', {
@@ -16,11 +17,13 @@ const ToDoNumber = (props) => {
             headers: {
                 'Content-Type': 'application/json'
             }, 
-            body: JSON.stringify({userId: props.userId, habitName: habitName, currentNum: currentNum, targetNum: targetNum}) 
+            body: JSON.stringify({userId: props.userId, habitName: habitName, currentNum: currentNum+1, targetNum: targetNum}) 
         })
         .then(data => data.json())
         .then(data => {
-            console.log(data)
+            props.updateDailyAverage(data.dailyAverage);
+            props.incrementNum(habitName);
+
         })
     };
 
