@@ -58,7 +58,32 @@ dbController.getUserInfo = async (req, res, next) => {
   //console.log('inside dbController.getUserInfo')
   const userId = res.locals.userId;
 
-  // Get Calendar current date and its the past 27 days
+  // Get today's habit progress
+  const todayHabitQuery = `
+    SELECT user_id, total_percent FROM daily_count
+    WHERE date=(SELECT CURRENT_DATE) AND user_id=$1
+    `;
+  const todayAverage = await db.query(todayHabitQuery, [userId]);
+
+  if (!todayAverage.rows.length) {
+    // insert a new row at current_date in daily_count
+    let date = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${new Date().getDate()}`;
+
+    const addDailyPercent = `
+      INSERT INTO daily_count(user_id, date, total_percent)
+      VALUES($1, $2, 0)`;
+    
+    await db.query(addDailyPercent, [userId, date])
+    //set current num to zero
+    const resetCurrentNum = `
+      UPDATE user_habits
+      SET current_num=0
+      WHERE user_id=$1`
+
+    await db.query(resetCurrentNum, [userId]);
+  }
+  
+  // Get Calendar current date and the past 27 days
   const calendarQuery = `
       SELECT total_percent, date FROM daily_count
       WHERE user_id=$1 AND date BETWEEN (SELECT CURRENT_DATE)-integer'27' AND (SELECT CURRENT_DATE)
@@ -67,6 +92,7 @@ dbController.getUserInfo = async (req, res, next) => {
   // Populate calendarArray with 28 days
   const habitRecord = await db.query(calendarQuery, [userId]);
   res.locals.calendarRecord = [];
+  
   for (let i = 0; i < 28 - habitRecord.rows.length; i++) {
     res.locals.calendarRecord.push(0);
   }
@@ -74,12 +100,6 @@ dbController.getUserInfo = async (req, res, next) => {
     res.locals.calendarRecord.push(Number(row.total_percent));
   }
 
-  // Get today's habit progress
-  const todayHabitQuery = `
-    SELECT * FROM user_habit_records
-    WHERE date=(SELECT CURRENT_DATE) AND user_id=$1
-    `;
-  
   // Retrieve users' habits
   const usersHabits = `
     SELECT id, target_num, habit_name, current_num
@@ -116,6 +136,25 @@ dbController.assignHabit = async (req, res, next) => {
     currentNum
   ]);
 
+  // Get total current num and target num after adding new habit
+  const findSumsQuery = `
+    SELECT SUM(current_num) AS current_sum, SUM(target_num) AS target_sum
+    FROM user_habits
+    WHERE user_id=$1;`
+
+  const sums = await db.query(findSumsQuery, [userId])
+  let dailyAverage = (sums.rows[0].current_sum / sums.rows[0].target_sum).toFixed(2);
+  res.locals.dailyAverage = dailyAverage;
+
+
+  let date = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${new Date().getDate()}`;
+  //update daily count row with new percentage
+  const updateDailyCount = `
+    UPDATE daily_count
+    SET total_percent = $1
+    WHERE user_id = $2 AND date = $3;`;
+  await db.query(updateDailyCount, [dailyAverage, userId, date]);
+
   res.locals.newHabit = newHabit.rows
   return next();
 };
@@ -130,11 +169,26 @@ dbController.updateRecord = async (req, res, next) => {
   const updateCurrentNum = `
     UPDATE user_habits
     SET current_num = $1
-    WHERE user_id = $2 AND habit_name = $3;`
+    WHERE user_id = $2 AND habit_name = $3;`;
 
-  const updatedNum = await db.query(updateCurrentNum, [currentNum, userId, habitName]);
+  await db.query(updateCurrentNum, [currentNum, userId, habitName]);
+ 
+  const findSumsQuery = `
+    SELECT SUM(current_num) AS current_sum, SUM(target_num) AS target_sum
+    FROM user_habits
+    WHERE user_id=$1;`
 
-  
+  const sums = await db.query(findSumsQuery, [userId])
+  let dailyAverage = (sums.rows[0].current_sum / sums.rows[0].target_sum).toFixed(2);
+  res.locals.dailyAverage = dailyAverage;
+
+
+  let date = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${new Date().getDate()}`;
+  const updateDailyCount = `
+    UPDATE daily_count
+    SET total_percent = $1
+    WHERE user_id = $2 AND date = $3`;
+  await db.query(updateDailyCount, [dailyAverage, userId, date]);
   // find target number
   const targetQuery = `
     SELECT target_num, current_num FROM user_habits
@@ -146,7 +200,7 @@ dbController.updateRecord = async (req, res, next) => {
   const current = targetNum.rows[0].current_num;
 
   let newPercent = current / target;
-
+  console.log('--------------newPercent is: ', newPercent)
   const updateUHRQuery = `
       UPDATE user_habit_records
       SET fulfilled_percent=$1

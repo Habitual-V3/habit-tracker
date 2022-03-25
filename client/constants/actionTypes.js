@@ -5,3 +5,4 @@ export const DELETE_HABIT = 'DELETE_HABIT';
 export const INCREMENT_NUM_HABIT = 'INCREMENT_NUM_HABIT';
 export const GET_FEED = 'GET_FEED';
 export const SHOW_MODAL = 'SHOW_MODAL'
+export const UPDATE_DAILY_AVERAGE = 'UPDATE_DAILY_AVERAGE'

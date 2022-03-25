@@ -43,7 +43,7 @@ const habitsReducer = (state = initialState, action) => {
         }
       }
       console.log('STATE: ', copyState.habits)
-      return copyState
+      return {...copyState, habitsCopy}
     }
 
     case types.DELETE_HABIT: {
@@ -56,6 +56,14 @@ const habitsReducer = (state = initialState, action) => {
       }
       console.log('STATE: ', copyState.habits)
       return {...copyState, habitsCopy};
+    }
+
+    case types.UPDATE_DAILY_AVERAGE: {
+      const copyState = JSON.parse(JSON.stringify(state));
+      const calendarCopy = copyState.calendar;
+      calendarCopy[calendarCopy.length -1] = action.payload;
+      console.log('New calendar with updated average on last day: ', calendarCopy);
+      return {...copyState, calendarCopy}
     }
 
     default: {

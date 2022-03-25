@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch) => ({
   incrementNumHabit: (habitId) => dispatch(actions.incrementNumHabitActionCreator(habitId)),
 	showModalAction: (show) => dispatch(actions.modalActionCreator(show)),
 	addNewHabit: (habit) => dispatch(actions.createHabitActionCreator(habit)), 
-  deleteHabit: (habit) => dispatch(actions.deleteHabitActionCreator(habit))
+  deleteHabit: (habit) => dispatch(actions.deleteHabitActionCreator(habit)),
+  updateDailyAverage: (percentage) => dispatch(actions.updateDailyAverageActionCreator(percentage))
 });
 
 class FeedContainer extends Component {
@@ -40,6 +41,7 @@ class FeedContainer extends Component {
 
 										userId={this.props.userId} 
                     habits={this.props.habits}
+                    updateDailyAverage={this.props.updateDailyAverage}
 										addNewHabit={this.props.addNewHabit}/>
                 <TopBar 
                     firstName={this.props.firstName}
@@ -47,6 +49,7 @@ class FeedContainer extends Component {
                 <Calendar 
                     calendarData={this.props.calendar}/>
                 <ToDos 
+                    updateDailyAverage={this.props.updateDailyAverage}
 										userId={this.props.userId}
 								    show={this.props.showModal}
 										showModalAdd={this.props.showModalAction}
